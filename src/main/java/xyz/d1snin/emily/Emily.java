@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import javax.security.auth.login.LoginException;
 
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import xyz.d1snin.emily.commands.HelpCommand;
+//import xyz.d1snin.emily.commands.HelpCommand;
 import xyz.d1snin.emily.commands.PingCommand;
 import xyz.d1snin.emily.util.readFromJson;
 import xyz.d1snin.emily.util.Time;
