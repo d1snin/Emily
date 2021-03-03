@@ -21,7 +21,7 @@ public class Emily {
 
     private static final ListenerAdapter[] commands = {
             new PingCommand(),
-            new HelpCommand()
+            //new HelpCommand()
     };
 
     public static void main(String[] args) throws LoginException, InterruptedException {
