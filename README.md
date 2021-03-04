@@ -1,2 +1,2 @@
 # Emily
-A Discord bot writed using JDA library.
+A Discord bot writed on Java using JDA library.
