@@ -67,9 +67,11 @@ public class HelpCommand extends Command
                 s.append(description).append("\n");
             }
 
-            channel.sendMessage(new MessageBuilder()
-                    .append(":star: **The following commands are supported by the bot** :star:\n")
-                    .append(s.toString())
+
+            channel.sendMessage(new EmbedBuilder()
+                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n" + s.toString())
+                    .setColor(Color.ORANGE)
+                    .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                     .build()).queue();
     }
 }
