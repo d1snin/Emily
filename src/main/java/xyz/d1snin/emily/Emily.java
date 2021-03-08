@@ -8,7 +8,6 @@ import xyz.d1snin.emily.util.ReadJSON;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
-import java.util.List;
 
 public class Emily
 {
@@ -31,12 +30,6 @@ public class Emily
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
-//            try {
-                jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size()));
-//            } catch (NullPointerException exception) {
-//                Log.Warn("Failed to get the number of servers");
-//                jdaBuilder.setActivity(Activity.watching("'help | uwu"));
-//            }
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand())
@@ -44,6 +37,7 @@ public class Emily
             api = jdaBuilder.build();
             api.awaitReady();
             Log.Info("Bot has started up!");
+            jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size() + " servers!"));
 
         }
         catch (IllegalArgumentException e)
