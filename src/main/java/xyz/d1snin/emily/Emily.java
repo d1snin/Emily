@@ -38,10 +38,7 @@ public class Emily
             api = jdaBuilder.build();
             api.awaitReady();
             Log.Info("Bot has started up!");
-            while (true) {
-                Thread.sleep(30000);
-                jdaBuilder.setActivity(Activity.watching("'help | " + api.getGatewayPing()));
-            }
+            run.start();
         }
         catch (IllegalArgumentException e)
         {
@@ -59,4 +56,13 @@ public class Emily
             System.exit(0);
         }
     }
+    static Thread run = new Thread(() -> {
+        while(true){
+            try {
+                api.getPresence().setPresence(Activity.watching("'help | " + api.getGatewayPing()), true);
+                Thread.sleep(30000);
+            } catch (InterruptedException ex) {
+            }
+        }
+    });
 }
