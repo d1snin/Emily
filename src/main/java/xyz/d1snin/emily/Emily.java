@@ -25,20 +25,17 @@ public class Emily
     {
         try
         {
-
             JDABuilder jdaBuilder = JDABuilder.createDefault((ReadJSON.readJson("conf.json", "token")));
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
-            jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size()));
+            jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuildCache().size()));
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand())
             );
-
             api = jdaBuilder.build();
             api.awaitReady();
-
             Log.Info("Bot has started up!");
 
         }
