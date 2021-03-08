@@ -18,12 +18,18 @@ public class AnimeCommand extends Command {
     public void onCommand(MessageReceivedEvent e, String[] args) {
         if (e.getTextChannel().isNSFW()) {
 //            try {
-            String danbooruTags = getArgAsString(args, false);
+
+            Danbooru danbooru = new DanbooruBuilder().build();
+            List<Post> posts = danbooru.getPosts(args[0], true);
+            Random rand = new Random();
+
+            Post randomElement = posts.get(rand.nextInt(posts.size() + 1));
+
             e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription(getArgAsString(args, true))
+                    .setDescription("`" + randomElement.getTagString() + "`")
                     .setColor(Color.ORANGE)
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setImage(generateImage(danbooruTags))
+                    .setImage(randomElement.getFileUrl())
                     .build()).queue();
 //            } catch (IllegalArgumentException illegalArgumentException) {
 //                e.getTextChannel().sendMessage(new EmbedBuilder()
@@ -49,18 +55,5 @@ public class AnimeCommand extends Command {
     @Override
     public String getDescription() {
         return "Random anime picture from Danbooru (NSFW).щщзYou can search by tag - `'anime <tag>`";
-    }
-    private static String getArgAsString(String[] args, boolean quotes) {
-        if (quotes) {
-            return "`" + args[0] + "`";
-        }
-        return args[0];
-    }
-    private static String generateImage(String tags) {
-        Danbooru danbooru = new DanbooruBuilder().build();
-        List<Post> posts = danbooru.getPosts(tags, true);
-        Random rand = new Random();
-        Post randomElement = posts.get(rand.nextInt(posts.size()));
-        return randomElement.getFileUrl();
     }
 }
