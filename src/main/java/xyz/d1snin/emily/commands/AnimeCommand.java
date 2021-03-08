@@ -17,19 +17,27 @@ public class AnimeCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         if (e.getTextChannel().isNSFW()) {
-            String danbooruTags = getArgsAsString(args, false);
+            String danbooruTags = getArgAsString(args, false);
             e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription(getArgsAsString(args, true))
+                    .setDescription(getArgAsString(args, true))
                     .setColor(Color.ORANGE)
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setImage(generateImage(danbooruTags))
                     .build()).queue();
         } else {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Please use this command in NSFW channel!")
-                    .setColor(Color.ORANGE)
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .build()).queue();
+            try {
+                e.getTextChannel().sendMessage(new EmbedBuilder()
+                        .setDescription("Please use this command in NSFW channel!")
+                        .setColor(Color.ORANGE)
+                        .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                        .build()).queue();
+            } catch (IllegalArgumentException illegalArgumentException) {
+                e.getTextChannel().sendMessage(new EmbedBuilder()
+                        .setDescription("Could not find an image for this tag.")
+                        .setColor(Color.ORANGE)
+                        .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                        .build()).queue();
+            }
         }
     }
 
@@ -40,18 +48,13 @@ public class AnimeCommand extends Command {
 
     @Override
     public String getDescription() {
-        return "Random anime picture from Danbooru (NSFW)";
+        return "Random anime picture from Danbooru (NSFW). You can search by tag - `'anime <tag>`";
     }
-    private static String getArgsAsString(String[] args, boolean quotes) {
-        StringBuilder res = new StringBuilder(" ");
-        for (int i = 1; i < args.length; i++) {
-            if (quotes) {
-                res.append("`").append(args[i]).append("`").append(" ");
-            } else {
-                res.append(args[i]).append(" ");
-            }
+    private static String getArgAsString(String[] args, boolean quotes) {
+        if (quotes) {
+            return "`" + args[0] + "`";
         }
-        return res.toString();
+        return args[0];
     }
     private static String generateImage(String tags) {
         Danbooru danbooru = new DanbooruBuilder().build();
