@@ -63,7 +63,7 @@ public class HelpCommand extends Command
                 String description = c.getDescription();
                 description = (description == null || description.isEmpty()) ? NO_DESCRIPTION : description;
 
-                s.append("| `").append(c.getAliases().get(0)).append("` - ");
+                s.append("`").append(c.getAliases().get(0)).append("` - ");
                 s.append(description).append("\n");
             }
 
