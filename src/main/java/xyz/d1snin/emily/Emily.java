@@ -1,5 +1,6 @@
 package xyz.d1snin.emily;
 
+import net.dv8tion.jda.api.entities.Activity;
 import xyz.d1snin.emily.commands.*;
 import xyz.d1snin.emily.util.Log;
 import xyz.d1snin.emily.util.ReadJSON;
@@ -29,6 +30,7 @@ public class Emily
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
+            jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size()));
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand())
