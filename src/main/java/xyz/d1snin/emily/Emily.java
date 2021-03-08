@@ -1,5 +1,6 @@
 package xyz.d1snin.emily;
 
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import xyz.d1snin.emily.commands.*;
@@ -31,6 +32,7 @@ public class Emily
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
+            jdaBuilder.setStatus(OnlineStatus.IDLE);
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand())
@@ -59,7 +61,7 @@ public class Emily
     static Thread run = new Thread(() -> {
         while(true){
             try {
-                api.getPresence().setPresence(Activity.watching("'help | " + api.getGatewayPing()), true);
+                api.getPresence().setActivity(Activity.watching("'help | " + api.getGatewayPing()));
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {
             }
