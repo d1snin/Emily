@@ -29,7 +29,11 @@ public class Emily
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
-            jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuildCache().size()));
+            if (api.getGuilds().isEmpty()) {
+                jdaBuilder.setActivity(Activity.watching("'help | uwu"));
+            } else {
+                jdaBuilder.setActivity(Activity.watching("'help | " +  api.getGuildCache().size() + " servers!"));
+            }
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand())
