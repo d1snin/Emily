@@ -19,9 +19,10 @@ public class AnimeCommand extends Command {
             Random rand = new Random();
             Post randomElement = posts.get(rand.nextInt(posts.size()));
             String url = randomElement.getFileUrl();
+            String tags = randomElement.getTagString().toString().replace("[", "").replace("]", "");
 
             e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("`" + randomElement.getTagString() + "`")
+                    .setDescription(tags)
                     .setColor(Color.ORANGE)
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setImage(url)
