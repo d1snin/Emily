@@ -31,12 +31,12 @@ public class Emily
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
-            try {
+//            try {
                 jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size()));
-            } catch (NullPointerException exception) {
-                Log.Warn("Failed to get the number of servers");
-                jdaBuilder.setActivity(Activity.watching("'help | uwu"));
-            }
+//            } catch (NullPointerException exception) {
+//                Log.Warn("Failed to get the number of servers");
+//                jdaBuilder.setActivity(Activity.watching("'help | uwu"));
+//            }
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand())
