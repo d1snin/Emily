@@ -13,12 +13,14 @@ public class PingCommand extends Command {
     public void onCommand(MessageReceivedEvent e, String[] args) {
         long time = System.currentTimeMillis();
         EmbedBuilder builderPong = new EmbedBuilder();
-        builderPong.setColor(Color.MAGENTA);
-        builderPong.setDescription("pong");
+        builderPong.setColor(Color.ORANGE);
+        builderPong.setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl());
+        builderPong.setDescription("Pong!");
         e.getChannel().sendMessage(builderPong.build())
                 .queue(response -> {
                     EmbedBuilder builderPing = new EmbedBuilder();
-                    builderPing.setColor(Color.MAGENTA);
+                    builderPing.setColor(Color.ORANGE);
+                    builderPing.setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl());
                     builderPing.setDescription("Pong: " + (System.currentTimeMillis() - time) + "ms");
                     response.editMessage(builderPing.build()).queue();
                 });
