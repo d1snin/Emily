@@ -60,7 +60,7 @@ public class Emily
         while(true){
             try {
                 api.getPresence().setPresence(Activity.watching("'help | " + api.getGatewayPing()), true);
-                Thread.sleep(30000);
+                Thread.sleep(5000);
             } catch (InterruptedException ex) {
             }
         }
