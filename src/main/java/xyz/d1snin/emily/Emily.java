@@ -22,6 +22,7 @@ public class Emily
     {
         return api;
     }
+    @SuppressWarnings("InfiniteLoopStatement")
     private static void setupBot()
     {
         try
@@ -37,8 +38,10 @@ public class Emily
             api = jdaBuilder.build();
             api.awaitReady();
             Log.Info("Bot has started up!");
-            jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size() + " servers!"));
-
+            while (true) {
+                Thread.sleep(30000);
+                jdaBuilder.setActivity(Activity.watching("'help | " + api.getGatewayPing()));
+            }
         }
         catch (IllegalArgumentException e)
         {
