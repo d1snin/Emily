@@ -61,7 +61,7 @@ public class Emily
     static Thread run = new Thread(() -> {
         while(true){
             try {
-                api.getPresence().setActivity(Activity.watching("'help | " + api.getGatewayPing()));
+                api.getPresence().setActivity(Activity.watching("'help | " + "Ping: " + api.getGatewayPing() + " ms"));
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {
             }
