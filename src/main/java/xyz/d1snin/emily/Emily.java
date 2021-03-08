@@ -1,46 +1,59 @@
 package xyz.d1snin.emily;
 
+import xyz.d1snin.emily.commands.*;
+import xyz.d1snin.emily.util.Log;
+import xyz.d1snin.emily.util.ReadJSON;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-
 import javax.security.auth.login.LoginException;
 
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-//import xyz.d1snin.emily.commands.HelpCommand;
-import xyz.d1snin.emily.commands.PingCommand;
-import xyz.d1snin.emily.util.readFromJson;
-import xyz.d1snin.emily.util.Time;
-
-public class Emily {
-
-    private static final String token = readFromJson.readJson("conf.json", "token");
-    public static String prefix = readFromJson.readJson("conf.json", "prefix");
-    private static JDA jda;
-
-    private static final ListenerAdapter[] commands = {
-            new PingCommand(),
-            //new HelpCommand()
-    };
-
-    public static void main(String[] args) throws LoginException, InterruptedException {
-        JDABuilder builder = JDABuilder.createDefault(token);
-        log("Logged.");
-        builder.setStatus(OnlineStatus.IDLE);
-        log("Status - IDLE.");
-        builder.setActivity(Activity.watching("`help | uwu"));
-        log("Activity - Watching `help | uwu");
-        for (ListenerAdapter command : commands) {
-            builder.addEventListeners(command);
-        }
-        log("All commands have been loaded.");
-        builder.build().awaitReady();
-        log("Bot has started up.");
+public class Emily
+{
+    private static JDA api;
+    public static String BOT_PREFIX = "'";
+    public static String BOT_NAME = "Emily";
+    public static void main(String[] args)
+    {
+            setupBot();
     }
+    public static JDA getAPI()
+    {
+        return api;
+    }
+    private static void setupBot()
+    {
+        try
+        {
 
-    public static void log(String text) {
-        System.out.println("[" + Time.getTime() + "] " + text);
+            JDABuilder jdaBuilder = JDABuilder.createDefault((ReadJSON.readJson("conf.json", "token")));
+            HelpCommand help = new HelpCommand();
+            jdaBuilder.addEventListeners(help.registerCommand(help));
+            jdaBuilder.setEnableShutdownHook(true);
+            jdaBuilder.addEventListeners(
+                    help.registerCommand(new AnimeCommand()),
+                    help.registerCommand(new PingCommand())
+            );
+
+            api = jdaBuilder.build();
+            api.awaitReady();
+
+            Log.Info("Bot has started up!");
+
+        }
+        catch (IllegalArgumentException e)
+        {
+            Log.Error("No login details provided! Please provide a botToken in the config.");
+            System.exit(0);
+        }
+        catch (LoginException e)
+        {
+            Log.Error("The botToken provided in the conf.json was incorrect.\nDid you modify the conf.json after it was created?");
+            System.exit(0);
+        }
+        catch (InterruptedException e)
+        {
+            Log.Error("Our login thread was interrupted!");
+            System.exit(0);
+        }
     }
 }
-

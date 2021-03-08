@@ -8,7 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.File;
 
-public class readFromJson {
+public class ReadJSON {
     public static String readJson(String file, String  object) {
         try {
 
