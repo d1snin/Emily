@@ -24,6 +24,12 @@ public class AnimeCommand extends Command {
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setImage(generateImage(danbooruTags))
                     .build()).queue();
+        } else {
+            e.getTextChannel().sendMessage(new EmbedBuilder()
+                    .setDescription("Please use this command in NSFW channel!")
+                    .setColor(Color.ORANGE)
+                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                    .build()).queue();
         }
     }
 
