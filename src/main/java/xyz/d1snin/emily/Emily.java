@@ -1,12 +1,14 @@
 package xyz.d1snin.emily;
 
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import xyz.d1snin.emily.commands.*;
 import xyz.d1snin.emily.util.Log;
 import xyz.d1snin.emily.util.ReadJSON;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
+import java.util.List;
 
 public class Emily
 {
@@ -29,10 +31,10 @@ public class Emily
             HelpCommand help = new HelpCommand();
             jdaBuilder.addEventListeners(help.registerCommand(help));
             jdaBuilder.setEnableShutdownHook(true);
-            if (api.getGuilds().isEmpty()) {
+            try {
+                jdaBuilder.setActivity(Activity.watching("'help | " + api.getGuilds().size()));
+            } catch (NullPointerException exception) {
                 jdaBuilder.setActivity(Activity.watching("'help | uwu"));
-            } else {
-                jdaBuilder.setActivity(Activity.watching("'help | " +  api.getGuildCache().size() + " servers!"));
             }
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
