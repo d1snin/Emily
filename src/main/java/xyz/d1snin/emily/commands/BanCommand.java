@@ -2,7 +2,7 @@ package xyz.d1snin.emily.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
 
@@ -28,20 +28,17 @@ public class BanCommand extends Command {
                     .setColor(Color.ORANGE)
                     .build()).queue();
         } else {
-            Member member = e.getGuild().getMemberById(Long.parseLong(args[1].replace("<@!", "").replace(">", "")));
             String reason = "";
             for (int i = 3; i < args.length; i++) {
                 reason += args[i];
             }
-
-            if (member != null) {
-                member.ban(0).reason(reason);
+            List<User> mentionedUser = e.getMessage().getMentionedUsers();
+            e.getGuild().ban(mentionedUser.get(0), 0);
                 e.getTextChannel().sendMessage(new EmbedBuilder()
-                        .setDescription("User " + member.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason " + reason)
+                        .setDescription("User " + mentionedUser.get(0).getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason " + reason)
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
-            }
         }
     }
     @Override
