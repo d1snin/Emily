@@ -13,9 +13,9 @@ import java.util.List;
 public class BanCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        if (args.length < 3) {
+        if (args.length < 2) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <NumberMessagesToDelete> <Reason>`")
+                    .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <Reason>`")
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
@@ -29,7 +29,7 @@ public class BanCommand extends Command {
                     .build()).queue();
         } else {
             String reason = "";
-            for (int i = 3; i < args.length; i++) {
+            for (int i = 2; i < args.length; i++) {
                 reason += args[i];
             }
             List<User> mentionedUser = e.getMessage().getMentionedUsers();
