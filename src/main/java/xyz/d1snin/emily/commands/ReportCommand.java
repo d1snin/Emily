@@ -16,7 +16,7 @@ public class ReportCommand extends Command {
         TextChannel chan = e.getGuild().getTextChannelById("818905717561229332");
         if (args.length > 1) {
             chan.sendMessage(new EmbedBuilder()
-                    .setDescription("**New report.**\n**User:** " + e.getAuthor().getAsTag() + "\n**Report Message:** " + reportMsg.substring(7))
+                    .setDescription("**New report.**\n**User:** " + e.getAuthor().getAsTag() + "\n**Report Message:** " + reportMsg.substring(8))
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
