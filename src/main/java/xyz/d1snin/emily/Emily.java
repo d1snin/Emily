@@ -14,7 +14,7 @@ public class Emily
 {
     private static JDA api;
     public static String BOT_PREFIX = "'";
-    public static String BOT_NAME = api.getSelfUser().getName();
+    public static String BOT_NAME = "Emily | エミリー";
     public static void main(String[] args)
     {
             setupBot();
