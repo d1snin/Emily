@@ -36,12 +36,12 @@ public class ReportCommand extends Command {
     @Override
     public List<String> getAliases()
     {
-        return Arrays.asList(Emily.BOT_PREFIX + "ping");
+        return Arrays.asList(Emily.BOT_PREFIX + "report");
     }
 
     @Override
     public String getDescription()
     {
-        return "Provide Emily's ping";
+        return "Reporting a problem in a bot";
     }
 }
