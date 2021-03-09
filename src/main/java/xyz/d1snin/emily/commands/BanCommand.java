@@ -13,6 +13,13 @@ import java.util.List;
 public class BanCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
+        if (args.length < 3) {
+            e.getTextChannel().sendMessage(new EmbedBuilder()
+                    .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <NumberMessagesToDelete> <Reason>`")
+                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                    .setColor(Color.ORANGE)
+                    .build()).queue();
+        }
         if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
                     .setDescription("You dont have permission to use this command.")
@@ -21,14 +28,8 @@ public class BanCommand extends Command {
                     .build()).queue();
             return;
         }
-        Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
-        if (args.length < 3) {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <NumberMessagesToDelete> <Reason>`")
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
-        } else {
+        else {
+            Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
             String reason = "";
             for (int i = 3; i < args.length; i++) {
                 reason += args[i];
