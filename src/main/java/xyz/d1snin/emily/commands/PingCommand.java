@@ -12,7 +12,7 @@ public class PingCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         e.getTextChannel().sendMessage(new EmbedBuilder()
-                .setDescription(e.getJDA().getGatewayPing() + "ms")
+                .setDescription("Ping: " + e.getJDA().getGatewayPing() + "ms")
                 .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                 .setColor(Color.ORANGE)
                 .build()).queue();
