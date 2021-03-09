@@ -14,7 +14,7 @@ public class Emily
 {
     private static JDA api;
     public static String BOT_PREFIX = "'";
-    public static String BOT_NAME = "Emily";
+    public static String BOT_NAME = api.getSelfUser().getName();
     public static void main(String[] args)
     {
             setupBot();
@@ -23,7 +23,6 @@ public class Emily
     {
         return api;
     }
-    @SuppressWarnings("InfiniteLoopStatement")
     private static void setupBot()
     {
         try
@@ -39,7 +38,7 @@ public class Emily
             );
             api = jdaBuilder.build();
             api.awaitReady();
-            Log.Info("Bot has started up!");
+            Log.Info("Bot has started up!    " + BOT_NAME);
             run.start();
         }
         catch (IllegalArgumentException e)
