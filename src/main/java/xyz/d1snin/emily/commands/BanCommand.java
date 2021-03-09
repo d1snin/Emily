@@ -13,33 +13,36 @@ import java.util.List;
 public class BanCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        Member member = e.getMember();
-        List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
-        List<String> arg = Arrays.asList(args.clone());
-        Member target = mentionedMembers.get(0);
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && !member.canInteract(target)) {
+        Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
+        if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("You dont have permission to run this command.")
+                    .setDescription("You dont have permission to use this command.")
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
-            return;
         }
-        if (mentionedMembers.isEmpty() || arg.size() < 2) {
+        if (args.length < 3) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Missing arguments.")
+                    .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <NumberMessagesToDelete> <Reason>`")
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
-            return;
+        } else {
+            String reason = "";
+            for (int i = 3; i < args.length; i++) {
+                reason += args[i];
+            }
+            int BanTime = Integer.parseInt(args[2]);
+
+            if (member != null) {
+                member.ban(BanTime).reason(null);
+                e.getTextChannel().sendMessage(new EmbedBuilder()
+                        .setDescription("User " + member.getAsMention() + " has been banned by " + e.getAuthor().getAsMention())
+                        .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.ORANGE)
+                        .build()).queue();
+            }
         }
-        target.ban(0)
-                .reason(null);
-        e.getTextChannel().sendMessage(new EmbedBuilder()
-                .setDescription("User " + target.getAsMention() + "was banned by " + e.getAuthor().getAsMention())
-                .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                .setColor(Color.ORANGE)
-                .build()).queue();
     }
     @Override
     public List<String> getAliases()
