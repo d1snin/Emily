@@ -19,6 +19,7 @@ public class BanCommand extends Command {
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
+            return;
         }
         if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
@@ -26,9 +27,7 @@ public class BanCommand extends Command {
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
-            return;
-        }
-        else {
+        } else {
             Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
             String reason = "";
             for (int i = 3; i < args.length; i++) {
