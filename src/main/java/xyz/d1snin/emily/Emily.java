@@ -34,7 +34,8 @@ public class Emily
             jdaBuilder.setStatus(OnlineStatus.IDLE);
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
-                    help.registerCommand(new PingCommand())
+                    help.registerCommand(new PingCommand()),
+                    help.registerCommand(new ReportCommand())
             );
             api = jdaBuilder.build();
             api.awaitReady();
