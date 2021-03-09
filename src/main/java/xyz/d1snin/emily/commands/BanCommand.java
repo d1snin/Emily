@@ -28,17 +28,16 @@ public class BanCommand extends Command {
                     .setColor(Color.ORANGE)
                     .build()).queue();
         } else {
-            Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
+            Member member = e.getGuild().getMemberById(Long.parseLong(args[1].replace("<@!", "").replace(">", "")));
             String reason = "";
             for (int i = 3; i < args.length; i++) {
                 reason += args[i];
             }
-            int BanTime = Integer.parseInt(args[2]);
 
             if (member != null) {
-                member.ban(BanTime).reason(null);
+                member.ban(0).reason(reason);
                 e.getTextChannel().sendMessage(new EmbedBuilder()
-                        .setDescription("User " + member.getAsMention() + " has been banned by " + e.getAuthor().getAsMention())
+                        .setDescription("User " + member.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason " + reason)
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
