@@ -33,9 +33,9 @@ public class BanCommand extends Command {
                 reason += args[i];
             }
             List<User> mentionedUser = e.getMessage().getMentionedUsers();
-            e.getGuild().ban(mentionedUser.get(0), 0);
+            e.getGuild().ban(mentionedUser.get(0), 0).reason(reason);
                 e.getTextChannel().sendMessage(new EmbedBuilder()
-                        .setDescription("User " + mentionedUser.get(0).getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason " + reason)
+                        .setDescription("User " + mentionedUser.get(0).getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
