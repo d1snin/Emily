@@ -2,6 +2,7 @@ package xyz.d1snin.emily.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
@@ -32,10 +33,10 @@ public class BanCommand extends Command {
             for (int i = 2; i < args.length; i++) {
                 reason += args[i];
             }
-            List<User> mentionedUser = e.getMessage().getMentionedUsers();
-            e.getGuild().ban(mentionedUser.get(0), 0).reason(reason);
+            List<Member> mentionedMember = e.getMessage().getMentionedMembers();
+            mentionedMember.get(0).ban(0).reason(reason);
                 e.getTextChannel().sendMessage(new EmbedBuilder()
-                        .setDescription("User " + mentionedUser.get(0).getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                        .setDescription("User " + mentionedMember.get(0).getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
