@@ -35,7 +35,8 @@ public class Emily
             jdaBuilder.addEventListeners(
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand()),
-                    help.registerCommand(new ReportCommand())
+                    help.registerCommand(new ReportCommand()),
+                    help.registerCommand(new BanCommand())
             );
             api = jdaBuilder.build();
             api.awaitReady();
