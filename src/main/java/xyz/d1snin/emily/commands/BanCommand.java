@@ -13,14 +13,15 @@ import java.util.List;
 public class BanCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
         if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
                     .setDescription("You dont have permission to use this command.")
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
+            return;
         }
+        Member member = e.getGuild().getMemberById(args[1].replace("<@!", "").replace(">", ""));
         if (args.length < 3) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
                     .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <NumberMessagesToDelete> <Reason>`")
