@@ -74,7 +74,7 @@ public class HelpCommand extends Command
         }
 
             channel.sendMessage(new EmbedBuilder()
-                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "\n**Moderation Commands:**\n" + sPage2.toString() + "\n**Info Commands**\n" + sPage3.toString())
+                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "\n" + "**Moderation Commands:**\n" + sPage2.toString() + "\n" + "**Info Commands**\n" + sPage3.toString())
                     .setColor(Color.ORANGE)
                     .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                     .build()).queue();
