@@ -69,7 +69,7 @@ public class BanCommand extends Command {
         channel.sendMessage(new EmbedBuilder()
                 .setDescription("You have been banned from the server" + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                 .setColor(Color.ORANGE)
-                .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
+                .setFooter(Emily.BOT_NAME, "https://media.discordapp.net/attachments/740354639895068764/819187444242317322/image0.jpg?width=436&height=436")
                 .build()).queue();
     }
     @Override
