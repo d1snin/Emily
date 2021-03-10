@@ -42,7 +42,7 @@ public class KickCommand extends Command {
                 List<User> privateMessage = e.getMessage().getMentionedUsers();
                 User privatemsg = privateMessage.get(0);
                 try {
-                    target.kick(reason).queue();
+                    target.kick(null).queue();
                 } catch (HierarchyException exc) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
                             .setDescription("It is impossible to kick a member whose role is higher than that of a bot")
