@@ -49,6 +49,7 @@ public class KickCommand extends Command {
                             .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                             .setColor(Color.ORANGE)
                             .build()).queue();
+                    return;
                 }
                 e.getTextChannel().sendMessage(new EmbedBuilder()
                         .setDescription("User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
