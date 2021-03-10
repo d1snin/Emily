@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import xyz.d1snin.emily.Emily;
 
 import java.awt.*;
@@ -46,8 +47,13 @@ public class KickCommand extends Command {
                         .setColor(Color.ORANGE)
                         .build()).queue();
                 try {
-                    sendPrivate(privatemsg.openPrivateChannel().complete(), args, e);
-                } catch (RuntimeException exception) {
+                    privatemsg.openPrivateChannel().complete()
+                            .sendMessage(new EmbedBuilder()
+                                    .setDescription("You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                                    .setColor(Color.ORANGE)
+                                    .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
+                                    .build()).queue();
+                } catch (ErrorResponseException exception) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
                             .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
                             .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
@@ -62,14 +68,6 @@ public class KickCommand extends Command {
                     .setColor(Color.ORANGE)
                     .build()).queue();
         }
-    }
-    private void sendPrivate(PrivateChannel channel, String[] args, MessageReceivedEvent e)
-    {
-        channel.sendMessage(new EmbedBuilder()
-                .setDescription("You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
-                .setColor(Color.ORANGE)
-                .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
-                .build()).queue();
     }
     @Override
     public List<String> getAliases()
