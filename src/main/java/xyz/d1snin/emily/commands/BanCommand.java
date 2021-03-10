@@ -11,41 +11,39 @@ import java.util.List;
 
 public class BanCommand extends Command {
     private static String reason = "";
+    private static int delDays;
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
+        List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
+        Member target = mentionedMembers.get(0);
+        List<User> privateMessage = e.getMessage().getMentionedUsers();
+        User privatemsg = privateMessage.get(0);
         try {
-            if (args.length < 2) {
-                EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban` `<mentionTheUser>` `<Reason>`");
+            if (args.length < 3) {
+                EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban` `<mentionTheUser>` `<delete user`s messages (yes or no)>` `<Reason>`");
                 return;
             }
             if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                 EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
+                delDays = args[2].equalsIgnoreCase("yes") ? 7 : 0;
             } else {
                 for (int i = 2; i < args.length; i++) {
                     reason += args[i];
                 }
-                List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
-                Member target = mentionedMembers.get(0);
-                List<User> privateMessage = e.getMessage().getMentionedUsers();
-                User privatemsg = privateMessage.get(0);
-                try {
-                    target.ban(7).queue();
-
-                EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
-
-                } catch (Exception ex) {
-                    EmbedUtils.sendEmbed(e, "Cant DM this user.");
-                }
+                    target.ban(delDays).queue();
+                    EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
             }
-        } catch (
-                IndexOutOfBoundsException ex) {
+
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             EmbedUtils.sendEmbed(e, "There is no such user in this guild");
-            reason = "";
         }
+            sendPrivateMessage(privatemsg, e);
+        reason = "";
     }
     private void sendPrivateMessage(User user, MessageReceivedEvent e) {
-            EmbedUtils.sendEmbed(e, "You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
+        user.openPrivateChannel().queue((channel) ->
+                EmbedUtils.sendPrivateEmbed(channel, "You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason));
     }
 
     @Override
