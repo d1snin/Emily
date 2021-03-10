@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ContextException;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import xyz.d1snin.emily.Emily;
 
 import java.awt.*;
@@ -47,8 +49,13 @@ public class BanCommand extends Command {
                         .setColor(Color.ORANGE)
                         .build()).queue();
                 try {
-                    sendPrivate(privatemsg.openPrivateChannel().complete(), args, e);
-                } catch (RuntimeException exception) {
+                    privatemsg.openPrivateChannel().complete()
+                            .sendMessage(new EmbedBuilder()
+                                            .setDescription("You have been banned from the server" + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                                            .setColor(Color.ORANGE)
+                                            .setFooter(Emily.BOT_NAME, "https://media.discordapp.net/attachments/740354639895068764/819187444242317322/image0.jpg?width=436&height=436")
+                                            .build()).queue();
+                } catch (ErrorResponseException exception) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
                             .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
                             .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
@@ -63,14 +70,6 @@ public class BanCommand extends Command {
                     .setColor(Color.ORANGE)
                     .build()).queue();
         }
-    }
-    private void sendPrivate(PrivateChannel channel, String[] args, MessageReceivedEvent e)
-    {
-        channel.sendMessage(new EmbedBuilder()
-                .setDescription("You have been banned from the server" + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
-                .setColor(Color.ORANGE)
-                .setFooter(Emily.BOT_NAME, "https://media.discordapp.net/attachments/740354639895068764/819187444242317322/image0.jpg?width=436&height=436")
-                .build()).queue();
     }
     @Override
     public List<String> getAliases()
