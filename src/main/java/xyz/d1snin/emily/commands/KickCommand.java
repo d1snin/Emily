@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
 
@@ -36,6 +37,8 @@ public class KickCommand extends Command {
                 }
                 List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
                 Member target = mentionedMembers.get(0);
+                List<User> privateMessage = e.getMessage().getMentionedUsers();
+                User privatemsg = privateMessage.get(0);
                 target.kick(reason).queue();
                 e.getTextChannel().sendMessage(new EmbedBuilder()
                         .setDescription("User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
@@ -43,7 +46,7 @@ public class KickCommand extends Command {
                         .setColor(Color.ORANGE)
                         .build()).queue();
                 try {
-                    sendPrivate(e.getAuthor().openPrivateChannel().complete(), args, e);
+                    sendPrivate(privatemsg.openPrivateChannel().complete(), args, e);
                 } catch (RuntimeException exception) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
                             .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
