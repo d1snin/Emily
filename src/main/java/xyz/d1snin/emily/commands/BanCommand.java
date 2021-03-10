@@ -28,8 +28,8 @@ public class BanCommand extends Command {
                 EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
                 delDays = args[2].equalsIgnoreCase("yes") ? 7 : 0;
             } else {
-                for (int i = 3; i < args.length; i++) {
-                    reason += args[i];
+                for (int i = 4; i < args.length; i++) {
+                    reason += args[i] + " ";
                 }
                     target.ban(delDays).queue();
                     EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
