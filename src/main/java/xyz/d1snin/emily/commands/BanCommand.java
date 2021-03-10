@@ -11,7 +11,6 @@ import java.util.List;
 
 public class BanCommand extends Command {
     private static String reason = "";
-    private static int delDays;
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
@@ -20,18 +19,17 @@ public class BanCommand extends Command {
         List<User> privateMessage = e.getMessage().getMentionedUsers();
         User privatemsg = privateMessage.get(0);
         try {
-            if (args.length < 3) {
-                EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban` `<mentionTheUser>` `<delete user`s messages (yes or no)>` `<Reason>`");
+            if (args.length < 2) {
+                EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban` `<mentionTheUser>` `<Reason>`");
                 return;
             }
             if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                 EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
-                delDays = args[2].equalsIgnoreCase("yes") ? 7 : 0;
             } else {
-                for (int i = 4; i < args.length; i++) {
+                for (int i = 2; i < args.length; i++) {
                     reason += args[i] + " ";
                 }
-                    target.ban(delDays).queue();
+                    target.ban(7).queue();
                     EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
             }
 
