@@ -36,7 +36,8 @@ public class Emily
                     help.registerCommand(new AnimeCommand()),
                     help.registerCommand(new PingCommand()),
                     help.registerCommand(new ReportCommand()),
-                    help.registerCommand(new BanCommand())
+                    help.registerCommand(new BanCommand()),
+                    help.registerCommand(new KickCommand())
             );
             api = jdaBuilder.build();
             api.awaitReady();
