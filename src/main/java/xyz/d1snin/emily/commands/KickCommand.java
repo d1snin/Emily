@@ -78,6 +78,7 @@ public class KickCommand extends Command {
                     .setColor(Color.ORANGE)
                     .build()).queue();
         }
+        reason = "";
     }
     @Override
     public List<String> getAliases()
