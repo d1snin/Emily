@@ -47,12 +47,13 @@ public class KickCommand extends Command {
                         .setColor(Color.ORANGE)
                         .build()).queue();
                 try {
-                    privatemsg.openPrivateChannel().complete()
-                            .sendMessage(new EmbedBuilder()
+                    privatemsg.openPrivateChannel().complete();
+                    privatemsg.openPrivateChannel().queue((channel) ->
+                            channel.sendMessage(new EmbedBuilder()
                                     .setDescription("You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                                     .setColor(Color.ORANGE)
                                     .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
-                                    .build()).queue();
+                                    .build()).queue());
                 } catch (ErrorResponseException exception) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
                             .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
