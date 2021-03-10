@@ -3,11 +3,9 @@ package xyz.d1snin.emily.commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.ContextException;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
 import xyz.d1snin.emily.Emily;
 
 import java.awt.*;
@@ -16,12 +14,13 @@ import java.util.List;
 
 public class BanCommand extends Command {
     private static String reason = "";
+
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         try {
             if (args.length < 2) {
                 e.getTextChannel().sendMessage(new EmbedBuilder()
-                        .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <delete msgs: yes or no> <Reason>`")
+                        .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban <mentionTheUser> <Reason>`")
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
@@ -34,56 +33,67 @@ public class BanCommand extends Command {
                         .setColor(Color.ORANGE)
                         .build()).queue();
             } else {
-                int deleteMsgs = (args[2].equals("yes") ? 24 : 0);
-                for (int i = 3; i < args.length; i++) {
+                for (int i = 2; i < args.length; i++) {
                     reason += args[i];
                 }
                 List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
                 Member target = mentionedMembers.get(0);
                 List<User> privateMessage = e.getMessage().getMentionedUsers();
                 User privatemsg = privateMessage.get(0);
-                target.ban(deleteMsgs).reason(reason).queue();
+                try {
+                    target.ban(7).queue();
+                } catch (HierarchyException exc) {
+                    e.getTextChannel().sendMessage(new EmbedBuilder()
+                            .setDescription("It is impossible to kick a member whose role is higher than that of a bot")
+                            .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Color.ORANGE)
+                            .build()).queue();
+                    return;
+                }
                 e.getTextChannel().sendMessage(new EmbedBuilder()
                         .setDescription("User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
                 try {
-                    privatemsg.openPrivateChannel().complete()
-                            .sendMessage(new EmbedBuilder()
-                                            .setDescription("You have been banned from the server" + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
-                                            .setColor(Color.ORANGE)
-                                            .setFooter(Emily.BOT_NAME, "https://media.discordapp.net/attachments/740354639895068764/819187444242317322/image0.jpg?width=436&height=436")
-                                            .build()).queue();
-                } catch (ErrorResponseException exception) {
+                    privatemsg.openPrivateChannel().queue((channel) ->
+                            channel.sendMessage(new EmbedBuilder()
+                                    .setDescription("You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                                    .setColor(Color.ORANGE)
+                                    .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
+                                    .build()).queue());
+                } catch (Exception ex) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
-                            .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
-                            .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                            .setDescription("Cant DM this user.")
                             .setColor(Color.ORANGE)
+                            .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                             .build()).queue();
                 }
             }
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (
+                IndexOutOfBoundsException ex) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
                     .setDescription("There is no such user in this guild")
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
+            reason = "";
         }
     }
+
     @Override
-    public List<String> getAliases()
-    {
+    public List<String> getAliases() {
         return Arrays.asList(Emily.BOT_PREFIX + "ban");
     }
 
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
         return "Ban a member";
     }
+
     @Override
     public String getCategory() {
         return "Moderation";
     }
+
 }

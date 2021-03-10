@@ -3,10 +3,8 @@ package xyz.d1snin.emily.commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import xyz.d1snin.emily.Emily;
 
@@ -16,6 +14,7 @@ import java.util.List;
 
 public class KickCommand extends Command {
     private static String reason = "";
+
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         try {
@@ -63,34 +62,35 @@ public class KickCommand extends Command {
                                     .setColor(Color.ORANGE)
                                     .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                                     .build()).queue());
-                } catch (ErrorResponseException exception) {
+                } catch (Exception ex) {
                     e.getTextChannel().sendMessage(new EmbedBuilder()
-                            .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
-                            .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                            .setDescription("Cant DM this user.")
                             .setColor(Color.ORANGE)
+                            .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                             .build()).queue();
                 }
             }
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (
+                IndexOutOfBoundsException ex) {
             e.getTextChannel().sendMessage(new EmbedBuilder()
                     .setDescription("There is no such user in this guild")
                     .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.ORANGE)
                     .build()).queue();
+            reason = "";
         }
-        reason = "";
     }
+
     @Override
-    public List<String> getAliases()
-    {
+    public List<String> getAliases() {
         return Arrays.asList(Emily.BOT_PREFIX + "kick");
     }
 
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
         return "Kick a member";
     }
+
     @Override
     public String getCategory() {
         return "Moderation";
