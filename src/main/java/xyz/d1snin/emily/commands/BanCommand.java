@@ -42,7 +42,15 @@ public class BanCommand extends Command {
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
-                sendPrivate(e.getAuthor().openPrivateChannel().complete(), args, e);
+                try {
+                    sendPrivate(e.getAuthor().openPrivateChannel().complete(), args, e);
+                } catch (RuntimeException exception) {
+                    e.getTextChannel().sendMessage(new EmbedBuilder()
+                            .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
+                            .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Color.ORANGE)
+                            .build()).queue();
+                }
         }
     }
     private void sendPrivate(PrivateChannel channel, String[] args, MessageReceivedEvent e)
