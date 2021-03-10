@@ -47,7 +47,6 @@ public class KickCommand extends Command {
                         .setColor(Color.ORANGE)
                         .build()).queue();
                 try {
-                    privatemsg.openPrivateChannel().complete();
                     privatemsg.openPrivateChannel().queue((channel) ->
                             channel.sendMessage(new EmbedBuilder()
                                     .setDescription("You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
