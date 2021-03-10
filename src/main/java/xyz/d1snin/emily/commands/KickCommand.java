@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
 import xyz.d1snin.emily.Emily;
 
 import java.awt.*;
@@ -40,7 +41,15 @@ public class KickCommand extends Command {
                 Member target = mentionedMembers.get(0);
                 List<User> privateMessage = e.getMessage().getMentionedUsers();
                 User privatemsg = privateMessage.get(0);
-                target.kick(reason).queue();
+                try {
+                    target.kick(reason).queue();
+                } catch (HierarchyException exc) {
+                    e.getTextChannel().sendMessage(new EmbedBuilder()
+                            .setDescription("It is impossible to kick a member whose role is higher than that of a bot")
+                            .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Color.ORANGE)
+                            .build()).queue();
+                }
                 e.getTextChannel().sendMessage(new EmbedBuilder()
                         .setDescription("User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
