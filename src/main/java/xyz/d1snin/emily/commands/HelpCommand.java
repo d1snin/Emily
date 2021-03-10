@@ -51,40 +51,32 @@ public class HelpCommand extends Command
     {
         return "Command that helps use all other commands!";
     }
-
-    private void sendPrivate(PrivateChannel channel, String[] args)
-    {
-            StringBuilder s = new StringBuilder();
-            for (Command c : commands.values())
-            {
-                if (c.getCategory().equals("Fun")) {
-                    s.append(c.getCategory());
-                    s.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
-                }
-            }
-            for (Command c : commands.values()) {
-                if (c.getCategory().equals("Moderation")) {
-                    s.append(c.getCategory());
-                    s.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
-                }
-            }
-            for (Command c : commands.values()) {
-                if (c.getCategory().equals("Info")) {
-                    s.append(c.getCategory());
-                    s.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
-                }
-            }
-
-
-
-            channel.sendMessage(new EmbedBuilder()
-                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n" + s.toString())
-                    .setColor(Color.ORANGE)
-                    .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
-                    .build()).queue();
-    }
     @Override
     public String getCategory() {
         return "Info";
+    }
+
+    private void sendPrivate(PrivateChannel channel, String[] args)
+    {
+            StringBuilder sPage1 = new StringBuilder();
+            StringBuilder sPage2 = new StringBuilder();
+            StringBuilder sPage3 = new StringBuilder();
+        for (Command c : commands.values()) {
+            if (c.getCategory().equals("Fun")) {
+                sPage1.append(c.getCategory()).append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription()).append("\n");
+            }
+            if (c.getCategory().equals("Moderation")) {
+                sPage2.append(c.getCategory()).append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription()).append("\n");
+            }
+            if (c.getCategory().equals("Info")) {
+                sPage3.append(c.getCategory()).append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription()).append("\n");
+            }
+        }
+
+            channel.sendMessage(new EmbedBuilder()
+                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n" + sPage1.toString() + sPage2.toString() + sPage3.toString())
+                    .setColor(Color.ORANGE)
+                    .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
+                    .build()).queue();
     }
 }
