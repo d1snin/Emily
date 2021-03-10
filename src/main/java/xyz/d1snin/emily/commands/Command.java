@@ -11,6 +11,7 @@ public abstract class Command extends ListenerAdapter
     public abstract void onCommand(MessageReceivedEvent e, String[] args);
     public abstract List<String> getAliases();
     public abstract String getDescription();
+    public abstract String getCategory();
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e)

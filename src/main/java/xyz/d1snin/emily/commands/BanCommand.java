@@ -80,4 +80,8 @@ public class BanCommand extends Command {
     {
         return "Ban a member";
     }
+    @Override
+    public String getCategory() {
+        return "Moderation";
+    }
 }

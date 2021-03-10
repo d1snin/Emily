@@ -44,4 +44,8 @@ public class AnimeCommand extends Command {
     public String getDescription() {
         return "Random anime picture from Danbooru (NSFW)";
     }
+    @Override
+    public String getCategory() {
+        return "Fun";
+    }
 }

@@ -28,4 +28,8 @@ public class PingCommand extends Command {
     {
         return "Provide Emily's ping";
     }
+    @Override
+    public String getCategory() {
+        return "Info";
+    }
 }

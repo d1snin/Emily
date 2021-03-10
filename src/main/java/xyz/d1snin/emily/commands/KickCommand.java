@@ -79,4 +79,9 @@ public class KickCommand extends Command {
     {
         return "Kick a member";
     }
+    @Override
+    public String getCategory() {
+        return "Moderation";
+    }
+
 }

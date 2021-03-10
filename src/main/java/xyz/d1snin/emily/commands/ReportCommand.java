@@ -44,4 +44,8 @@ public class ReportCommand extends Command {
     {
         return "Reporting a problem in a bot";
     }
+    @Override
+    public String getCategory() {
+        return "Moderation";
+    }
 }

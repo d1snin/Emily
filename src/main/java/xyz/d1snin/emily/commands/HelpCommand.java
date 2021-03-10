@@ -1,7 +1,6 @@
 package xyz.d1snin.emily.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,8 +13,6 @@ import java.util.TreeMap;
 
 public class HelpCommand extends Command
 {
-    private static final String NO_DESCRIPTION = "No description has been provided for this command. Sorry!";
-
     private TreeMap<String, Command> commands;
 
     public HelpCommand()
@@ -60,12 +57,24 @@ public class HelpCommand extends Command
             StringBuilder s = new StringBuilder();
             for (Command c : commands.values())
             {
-                String description = c.getDescription();
-                description = (description == null || description.isEmpty()) ? NO_DESCRIPTION : description;
-
-                s.append("`").append(c.getAliases().get(0)).append("` - ");
-                s.append(description).append("\n");
+                if (c.getCategory().equals("Fun")) {
+                    s.append(c.getCategory());
+                    s.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
+                }
             }
+            for (Command c : commands.values()) {
+                if (c.getCategory().equals("Moderation")) {
+                    s.append(c.getCategory());
+                    s.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
+                }
+            }
+            for (Command c : commands.values()) {
+                if (c.getCategory().equals("Info")) {
+                    s.append(c.getCategory());
+                    s.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
+                }
+            }
+
 
 
             channel.sendMessage(new EmbedBuilder()
@@ -73,5 +82,9 @@ public class HelpCommand extends Command
                     .setColor(Color.ORANGE)
                     .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                     .build()).queue();
+    }
+    @Override
+    public String getCategory() {
+        return "Info";
     }
 }

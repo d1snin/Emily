@@ -8,12 +8,14 @@ import xyz.d1snin.emily.util.ReadJSON;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
+import java.time.LocalTime;
 
 public class Emily
 {
     private static JDA api;
     public static String BOT_PREFIX = "'";
     public static String BOT_NAME = "Emily | エミリー";
+    public static String LAST_RESTART = getTime();
     public static void main(String[] args)
     {
             setupBot();
@@ -41,7 +43,7 @@ public class Emily
             api = jdaBuilder.build();
             api.awaitReady();
             Log.Info("Bot has started up!    " + BOT_NAME);
-            run.start();
+            pingUpdate.start();
         }
         catch (IllegalArgumentException e)
         {
@@ -59,7 +61,7 @@ public class Emily
             System.exit(0);
         }
     }
-    static Thread run = new Thread(() -> {
+    static Thread pingUpdate = new Thread(() -> {
         while(true){
             try {
                 api.getPresence().setActivity(Activity.watching("'help | " + "Ping: " + api.getGatewayPing() + " ms"));
@@ -68,4 +70,9 @@ public class Emily
             }
         }
     });
+    private static String getTime() {
+        LocalTime now = LocalTime.now();
+        String time = now.toString();
+        return time.substring(0, 8);
+    }
 }
