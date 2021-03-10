@@ -63,18 +63,18 @@ public class HelpCommand extends Command
             StringBuilder sPage3 = new StringBuilder();
         for (Command c : commands.values()) {
             if (c.getCategory().equals("Fun")) {
-                sPage1.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription()).append("\n");
+                sPage1.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
             }
             if (c.getCategory().equals("Moderation")) {
-                sPage2.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription()).append("\n");
+                sPage2.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
             }
             if (c.getCategory().equals("Info")) {
-                sPage3.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription()).append("\n");
+                sPage3.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
             }
         }
 
             channel.sendMessage(new EmbedBuilder()
-                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "**Moderation Commands:**\n" + sPage2.toString() + "**Info Commands**\n" + sPage3.toString())
+                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "\n**Moderation Commands:**\n" + sPage2.toString() + "\n**Info Commands**\n" + sPage3.toString())
                     .setColor(Color.ORANGE)
                     .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
                     .build()).queue();
