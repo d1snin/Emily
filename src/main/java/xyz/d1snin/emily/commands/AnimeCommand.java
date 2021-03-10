@@ -1,11 +1,11 @@
 package xyz.d1snin.emily.commands;
-import net.dv8tion.jda.api.EmbedBuilder;
+
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
 import sg4e.danbooru.Danbooru;
 import sg4e.danbooru.DanbooruBuilder;
 import sg4e.danbooru.Post;
-import java.awt.*;
+import xyz.d1snin.emily.util.EmbedUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -20,19 +20,9 @@ public class AnimeCommand extends Command {
             Post randomElement = posts.get(rand.nextInt(posts.size()));
             String url = randomElement.getFileUrl();
             String tags = randomElement.getTagString().toString().replace("[", "").replace("]", "");
-
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription(tags)
-                    .setColor(Color.ORANGE)
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setImage(url)
-                    .build()).queue();
+            EmbedUtils.sendEmbedWithImage(e, url, tags);
         } else {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Please use this command in NSFW channel!")
-                    .setColor(Color.ORANGE)
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .build()).queue();
+            EmbedUtils.sendEmbed(e, "Please use this command in NSFW channel!");
         }
     }
 

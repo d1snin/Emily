@@ -1,12 +1,11 @@
 package xyz.d1snin.emily.commands;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
+import xyz.d1snin.emily.util.EmbedUtils;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
@@ -31,11 +30,7 @@ public class HelpCommand extends Command
     {
         if(!e.isFromType(ChannelType.PRIVATE))
         {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription(e.getAuthor().getAsMention() + ", Help information was sent as a private message.")
-                    .setColor(Color.ORANGE)
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .build()).queue();
+            EmbedUtils.sendEmbed(e, e.getAuthor().getAsMention() + ", Help information was sent as a private message.");
         }
         sendPrivate(e.getAuthor().openPrivateChannel().complete(), args);
     }
@@ -72,11 +67,6 @@ public class HelpCommand extends Command
                 sPage3.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
             }
         }
-
-            channel.sendMessage(new EmbedBuilder()
-                    .setDescription(":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "\n\n**Moderation Commands:**\n" + sPage2.toString() + "\n\n**Info Commands:**\n" + sPage3.toString())
-                    .setColor(Color.ORANGE)
-                    .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
-                    .build()).queue();
+        EmbedUtils.sendPrivateEmbed(channel, ":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "\n\n**Moderation Commands:**\n" + sPage2.toString() + "\n\n**Info Commands:**\n" + sPage3.toString() + "\n\n");
     }
 }

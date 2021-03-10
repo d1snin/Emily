@@ -1,11 +1,10 @@
 package xyz.d1snin.emily.commands;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
+import xyz.d1snin.emily.util.EmbedUtils;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,22 +14,10 @@ public class ReportCommand extends Command {
         String reportMsg = e.getMessage().getContentRaw();
         TextChannel chan = e.getGuild().getTextChannelById("818905717561229332");
         if (args.length > 1) {
-            chan.sendMessage(new EmbedBuilder()
-                    .setDescription("**New report.**\n**User:** " + e.getAuthor().getAsTag() + "\n**Report Message:** " + reportMsg.substring(8))
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Thanks for your report! We'll look at it shortly.")
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
+            EmbedUtils.sendEmbedToCurrentChannel(e, chan, "**New report.**\n**User:** " + e.getAuthor().getAsTag() + "\n**Report Message:** " + reportMsg.substring(8));
+            EmbedUtils.sendEmbed(e, "Thanks for your report! We'll look at it shortly.");
         } else {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Please describe the problem in more detail.")
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
+            EmbedUtils.sendEmbed(e, "Please describe the problem in more detail.");
         }
     }
     @Override
