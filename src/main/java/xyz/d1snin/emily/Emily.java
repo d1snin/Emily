@@ -2,7 +2,6 @@ package xyz.d1snin.emily;
 
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
 import xyz.d1snin.emily.commands.*;
 import xyz.d1snin.emily.util.Log;
 import xyz.d1snin.emily.util.ReadJSON;

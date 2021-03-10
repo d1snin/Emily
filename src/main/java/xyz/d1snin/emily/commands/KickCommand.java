@@ -15,41 +15,49 @@ public class KickCommand extends Command {
     private static String reason = "";
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        if (args.length < 2) {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick <mentionTheUser> <Reason>`")
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
-            return;
-        }
-        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("You dont have permission to use this command.")
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
-        } else {
-            for (int i = 2; i < args.length; i++) {
-                reason += args[i];
-            }
-            List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
-            Member target = mentionedMembers.get(0);
-            target.kick(reason).queue();
-            e.getTextChannel().sendMessage(new EmbedBuilder()
-                    .setDescription("User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
-                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.ORANGE)
-                    .build()).queue();
-            try {
-                sendPrivate(e.getAuthor().openPrivateChannel().complete(), args, e);
-            } catch (RuntimeException exception) {
+        try {
+            if (args.length < 2) {
                 e.getTextChannel().sendMessage(new EmbedBuilder()
-                        .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
+                        .setDescription("Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick <mentionTheUser> <Reason>`")
                         .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.ORANGE)
                         .build()).queue();
+                return;
             }
+            if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+                e.getTextChannel().sendMessage(new EmbedBuilder()
+                        .setDescription("You dont have permission to use this command.")
+                        .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.ORANGE)
+                        .build()).queue();
+            } else {
+                for (int i = 2; i < args.length; i++) {
+                    reason += args[i];
+                }
+                List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
+                Member target = mentionedMembers.get(0);
+                target.kick(reason).queue();
+                e.getTextChannel().sendMessage(new EmbedBuilder()
+                        .setDescription("User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                        .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.ORANGE)
+                        .build()).queue();
+                try {
+                    sendPrivate(e.getAuthor().openPrivateChannel().complete(), args, e);
+                } catch (RuntimeException exception) {
+                    e.getTextChannel().sendMessage(new EmbedBuilder()
+                            .setDescription("It is impossible to write a message to the user, perhaps the DM is closed")
+                            .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Color.ORANGE)
+                            .build()).queue();
+                }
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            e.getTextChannel().sendMessage(new EmbedBuilder()
+                    .setDescription("There is no such user in this guild")
+                    .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                    .setColor(Color.ORANGE)
+                    .build()).queue();
         }
     }
     private void sendPrivate(PrivateChannel channel, String[] args, MessageReceivedEvent e)
