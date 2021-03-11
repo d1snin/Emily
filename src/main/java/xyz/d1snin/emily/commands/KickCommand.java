@@ -1,11 +1,14 @@
 package xyz.d1snin.emily.commands;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
 import xyz.d1snin.emily.util.EmbedUtils;
+
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,12 +17,12 @@ public class KickCommand extends Command {
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
-            return;
-        }
         if (args.length < 2) {
             EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<mentionTheUser>` `<Reason>`");
+            return;
+        }
+        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+            EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
             return;
         }
         try {
@@ -30,8 +33,7 @@ public class KickCommand extends Command {
             for (int i = 2; i < args.length; i++) {
                 reason += args[i] + " ";
             }
-            sendPrivateMessage(privatemsg, e);
-            target.kick().queue();
+            sendPrivateMessageAndKick(privatemsg, e, target);
             EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
 
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
@@ -39,9 +41,13 @@ public class KickCommand extends Command {
         }
         reason = "";
     }
-    private void sendPrivateMessage(User user, MessageReceivedEvent e) {
-        user.openPrivateChannel().queue((channel) ->
-                EmbedUtils.sendPrivateEmbed(channel, "You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason));
+    private void sendPrivateMessageAndKick(User user, MessageReceivedEvent e, Member target) {
+        user.openPrivateChannel().complete().sendMessage(new EmbedBuilder()
+                .setDescription("You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                .setColor(Color.ORANGE)
+                .build()).complete();
+        target.kick().queue();
     }
 
     @Override
@@ -51,7 +57,7 @@ public class KickCommand extends Command {
 
     @Override
     public String getDescription() {
-        return "Kick a member";
+        return "kick a member";
     }
 
     @Override

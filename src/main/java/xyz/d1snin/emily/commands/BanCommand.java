@@ -1,11 +1,14 @@
 package xyz.d1snin.emily.commands;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
 import xyz.d1snin.emily.util.EmbedUtils;
+
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,18 +33,21 @@ public class BanCommand extends Command {
                 for (int i = 2; i < args.length; i++) {
                     reason += args[i] + " ";
                 }
-                    sendPrivateMessage(privatemsg, e);
-                    target.ban(7).queue();
-                    EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
+            sendPrivateMessageAndBan(privatemsg, e, target);
+            EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
 
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             EmbedUtils.sendEmbed(e, "There is no such user in this guild");
         }
         reason = "";
     }
-    private void sendPrivateMessage(User user, MessageReceivedEvent e) {
-        user.openPrivateChannel().queue((channel) ->
-                EmbedUtils.sendPrivateEmbed(channel, "You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason));
+    private void sendPrivateMessageAndBan(User user, MessageReceivedEvent e, Member target) {
+        user.openPrivateChannel().complete().sendMessage(new EmbedBuilder()
+                        .setDescription("You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                        .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.ORANGE)
+                        .build()).complete();
+                target.ban(7).queue();
     }
 
     @Override
