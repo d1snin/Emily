@@ -1,10 +1,11 @@
-package xyz.d1snin.emily.commands;
+package xyz.d1snin.emily.commands.fun;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
 import sg4e.danbooru.Danbooru;
 import sg4e.danbooru.DanbooruBuilder;
 import sg4e.danbooru.Post;
+import xyz.d1snin.emily.commands.Command;
 import xyz.d1snin.emily.util.EmbedUtils;
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package xyz.d1snin.emily.commands;
+package xyz.d1snin.emily.commands.moderation;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
+import xyz.d1snin.emily.commands.Command;
 import xyz.d1snin.emily.util.EmbedUtils;
 
 import java.awt.*;
