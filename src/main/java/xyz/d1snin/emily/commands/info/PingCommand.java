@@ -1,7 +1,8 @@
-package xyz.d1snin.emily.commands;
+package xyz.d1snin.emily.commands.info;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.d1snin.emily.Emily;
+import xyz.d1snin.emily.commands.Command;
 import xyz.d1snin.emily.util.EmbedUtils;
 
 import java.util.Arrays;

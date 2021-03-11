@@ -2,7 +2,12 @@ package xyz.d1snin.emily;
 
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import xyz.d1snin.emily.commands.*;
+import xyz.d1snin.emily.commands.fun.AnimeCommand;
+import xyz.d1snin.emily.commands.info.HelpCommand;
+import xyz.d1snin.emily.commands.info.PingCommand;
+import xyz.d1snin.emily.commands.info.ReportCommand;
+import xyz.d1snin.emily.commands.moderation.BanCommand;
+import xyz.d1snin.emily.commands.moderation.KickCommand;
 import xyz.d1snin.emily.util.Log;
 import xyz.d1snin.emily.util.ReadJSON;
 import net.dv8tion.jda.api.JDA;
