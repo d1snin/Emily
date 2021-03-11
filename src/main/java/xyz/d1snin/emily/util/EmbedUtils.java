@@ -31,6 +31,14 @@ public class EmbedUtils {
                 .setImage(url)
                 .build()).queue();
     }
+    public static void sendEmbedWithThumbnailPrivate(PrivateChannel ch, String url, String content) {
+        ch.sendMessage(new EmbedBuilder()
+                .setDescription(content)
+                .setThumbnail(url)
+                .setFooter(Emily.BOT_NAME, Emily.getAPI().getSelfUser().getAvatarUrl())
+                .setColor(Color.ORANGE)
+                .build()).queue();
+    }
 
     public static void sendPrivateEmbed(PrivateChannel channel, String content) {
         channel.sendMessage(new EmbedBuilder()

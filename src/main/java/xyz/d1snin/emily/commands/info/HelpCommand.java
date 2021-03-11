@@ -69,6 +69,6 @@ public class HelpCommand extends Command
             }
             sPage3.append("\n\n");
         }
-        EmbedUtils.sendPrivateEmbed(channel, ":star: **The following commands are supported by the bot** :star:\n\n**Fun Commands:**\n" + sPage1.toString() + "\n\n**Moderation Commands:**\n" + sPage2.toString() + "\n\n**Info Commands:**\n" + sPage3.toString());
+        EmbedUtils.sendEmbedWithThumbnailPrivate(channel, Emily.getAPI().getSelfUser().getAvatarUrl(), ":star: **The following commands are supported by the bot** :star:\n\n:kite: **Fun Commands:**\n" + sPage1.toString() + "\n\n:closed_lock_with_key: **Moderation Commands:**\n" + sPage2.toString() + "\n\n:information_source: **Info Commands:**\n" + sPage3.toString());
     }
 }
