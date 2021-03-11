@@ -14,12 +14,12 @@ public class KickCommand extends Command {
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        if (args.length < 2) {
-            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<mentionTheUser>` `<Reason>`");
-            return;
-        }
         if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
             EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
+            return;
+        }
+        if (args.length < 2) {
+            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<mentionTheUser>` `<Reason>`");
             return;
         }
         try {
