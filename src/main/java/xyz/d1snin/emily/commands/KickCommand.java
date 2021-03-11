@@ -14,34 +14,34 @@ public class KickCommand extends Command {
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
-        List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
-        Member target = mentionedMembers.get(0);
-        List<User> privateMessage = e.getMessage().getMentionedUsers();
-        User privatemsg = privateMessage.get(0);
+        if (args.length < 2) {
+            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<mentionTheUser>` `<Reason>`");
+            return;
+        }
+        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+            EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
+            return;
+        }
         try {
-            if (args.length < 2) {
-                EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<mentionTheUser>` `<Reason>`");
-                return;
+            List<Member> mentionedMembers = e.getMessage().getMentionedMembers();
+            Member target = mentionedMembers.get(0);
+            List<User> privateMessage = e.getMessage().getMentionedUsers();
+            User privatemsg = privateMessage.get(0);
+            for (int i = 2; i < args.length; i++) {
+                reason += args[i] + " ";
             }
-            if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-                EmbedUtils.sendEmbed(e, "You dont have permission to use this command.");
-            } else {
-                for (int i = 2; i < args.length; i++) {
-                    reason += args[i] + " ";
-                }
-                target.kick().queue();
-                EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
-            }
+            target.kick().queue();
+            EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
+            sendPrivateMessage(privatemsg, e);
 
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             EmbedUtils.sendEmbed(e, "There is no such user in this guild");
         }
-        sendPrivateMessage(privatemsg, e);
         reason = "";
     }
     private void sendPrivateMessage(User user, MessageReceivedEvent e) {
         user.openPrivateChannel().queue((channel) ->
-                EmbedUtils.sendPrivateEmbed(channel, "You have been kicked from the server `" + e.getGuild().getName() + "` by " + e.getAuthor().getAsMention() + "\nReason: " + reason));
+                EmbedUtils.sendPrivateEmbed(channel, "You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason));
     }
 
     @Override
