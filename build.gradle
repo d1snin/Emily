@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.dv8tion:JDA:4.2.0_229'
+    compile 'net.dv8tion:JDA:4.2.0_241'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'com.github.sg4e:java-danbooru-wrapper:master-SNAPSHOT'
     // https://mvnrepository.com/artifact/org.json/json
