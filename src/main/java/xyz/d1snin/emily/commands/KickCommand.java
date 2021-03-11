@@ -30,9 +30,9 @@ public class KickCommand extends Command {
             for (int i = 2; i < args.length; i++) {
                 reason += args[i] + " ";
             }
+            sendPrivateMessage(privatemsg, e);
             target.kick().queue();
             EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been kicked by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
-            sendPrivateMessage(privatemsg, e);
 
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             EmbedUtils.sendEmbed(e, "There is no such user in this guild");

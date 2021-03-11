@@ -30,9 +30,9 @@ public class BanCommand extends Command {
                 for (int i = 2; i < args.length; i++) {
                     reason += args[i] + " ";
                 }
+                    sendPrivateMessage(privatemsg, e);
                     target.ban(7).queue();
                     EmbedUtils.sendEmbed(e, "User " + target.getAsMention() + " has been banned by " + e.getAuthor().getAsMention() + "\nReason: " + reason);
-                    sendPrivateMessage(privatemsg, e);
 
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             EmbedUtils.sendEmbed(e, "There is no such user in this guild");
