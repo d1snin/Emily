@@ -65,7 +65,7 @@ public class HelpCommand extends Command
                 sPage2.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
             }
             if (c.getCategory().equals("Info")) {
-                sPage3.append("\n`").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
+                sPage3.append("\n\n").append(c.getAliases().get(0)).append("` - ").append(c.getDescription());
             }
         }
         sPage3.append("\n");
