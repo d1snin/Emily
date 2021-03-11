@@ -18,7 +18,7 @@ public class KickCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         if (args.length < 2) {
-            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<mentionTheUser>` `<Reason>`");
+            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "kick` `<Mention the user>` `<Reason>`");
             return;
         }
         if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
@@ -43,7 +43,7 @@ public class KickCommand extends Command {
     }
     private void sendPrivateMessageAndKick(User user, MessageReceivedEvent e, Member target) {
         user.openPrivateChannel().complete().sendMessage(new EmbedBuilder()
-                .setDescription("You have been banned from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
+                .setDescription("You have been kicked from the server " + e.getGuild().getName() + " by " + e.getAuthor().getAsMention() + "\nReason: " + reason)
                 .setFooter(Emily.BOT_NAME, e.getJDA().getSelfUser().getAvatarUrl())
                 .setColor(Color.ORANGE)
                 .build()).complete();
@@ -57,7 +57,7 @@ public class KickCommand extends Command {
 
     @Override
     public String getDescription() {
-        return "kick a member";
+        return "Kick a member";
     }
 
     @Override

@@ -18,7 +18,7 @@ public class BanCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         if (args.length < 2) {
-            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban` `<mentionTheUser>` `<Reason>`");
+            EmbedUtils.sendEmbed(e, "Please use the following syntax: " + "`" + Emily.BOT_PREFIX + "ban` `<Mention the user>` `<Reason>`");
             return;
         }
         if (!e.getMember().hasPermission(Permission.BAN_MEMBERS)) {
